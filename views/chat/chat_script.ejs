@@ -10,10 +10,9 @@
   });
   
   var enviar = function() {
-  	var nome = document.getElementById('nome');
     var msg = document.getElementById('mensagem');
 
-    socket.emit('send-server', { nome: nome.value, msg: msg.value });
+    socket.emit('send-server', msg.value);
 
     msg.value = '';
   };

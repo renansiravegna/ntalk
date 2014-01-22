@@ -4,8 +4,6 @@ module.exports = function(app) {
 			var usuario = req.session.usuario;
 			var params = { usuario: usuario, contatos: usuario.contatos };
 
-			console.log(params);
-
 			res.render('contatos/index', params);
 		},
 
