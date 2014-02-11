@@ -1,54 +1,89 @@
-module.exports = function(app) {	
+module.exports = function(app) {
+	var Usuario = app.models.usuario;
+
 	var ContatoController = {
 		index: function(req, res) {
-			var usuario = req.session.usuario;
-			var params = { usuario: usuario, contatos: usuario.contatos };
+			var _id = req.session.usuario._id;
 
-			res.render('contatos/index', params);
+			Usuario.findById(_id, function (erro, usuario) {
+				var contatos = usuario.contatos;
+				var resultado = { contatos: contatos };
+
+				console.log(usuario);
+
+				res.render('contatos/index', resultado);
+			});
 		},
 
 		create: function(req, res) {
-			var contato = req.body.contato;
-			var usuario = req.session.usuario;
+			var _id = req.session.usuario._id;
 
-			usuario.contatos.push(contato);
+			Usuario.findById(_id, function (erro, usuario) {
+				var contato = req.body.contato;
+				var contatos = usuario.contatos;
 
-			res.redirect('/contatos');
+				contatos.push(contato);
+
+				usuario.save(function () {
+					res.redirect('/contatos');
+				});
+			});
 		},
 
 		show: function(req, res) {
-			var id = req.params.id;
-			var contato = req.session.usuario.contatos[id];
-			var params = { contato: contato, id: id };
+			var _id = req.session.usuario._id;
 
-			res.render('contatos/show', params);
+			Usuario.findById(_id, function (erro, usuario) {
+				var contatoId = req.params.id;
+				var contato = usuario.contatos.id(contatoId);
+
+				var resultado = { contato: contato };
+
+				res.render('contatos/show', resultado);
+			});
 		},
 
 		edit: function(req, res) {
-			var id = req.params.id;
-			var usuario = req.session.usuario;
-			var contato = usuario.contatos[id];
-			var params = { usuario: usuario, contato: contato, id: id };
+			var _id = req.session.usuario._id;
 
-			res.render('contatos/edit', params);
+			Usuario.findById(_id, function (erro, usuario) {
+				var contatoId = req.params.id;
+				var contato = usuario.contatos.id(contatoId);
+
+				var resultado = { contato: contato };
+
+				res.render('contatos/edit', resultado);
+			});
 		},
 
 		update: function(req, res) {
-			var contato = req.body.contato;
-			var usuario = req.session.usuario;
+			var _id = req.session.usuario._id;
 
-			usuario.contatos[req.params.id] = contato;
+			Usuario.findById(_id, function (erro, usuario) {
+				var contatoId = req.params.id;
+				var contato = usuario.contatos.id(contatoId);
 
-			res.redirect('/contatos');
+				contato.nome = req.body.contato.nome;
+				contato.email = req.body.contato.email;
+
+				usuario.save(function () {
+					res.redirect('/contatos');
+				});
+			});
 		},
 
 		destroy: function(req, res) {
-			var usuario = req.session.usuario;
-			var id = req.params.id;
+			var _id = req.session.usuario._id;
+		
+			Usuario.findById(_id, function (erro, usuario) {
+				var contatoId = req.params.id;
 
-			usuario.contatos.splice(id, 1);
+				usuario.contatos.id(contatoId).remove();
 
-			res.redirect('/contatos');
+				usuario.save(function () {
+					res.redirect('/contatos');
+				});
+			});
 		}
 	};
 

@@ -6,32 +6,12 @@
 </header>
 
 <section>
-	40
-	E-book gerado especialmente para Renan Siravegna Moreira - renan.siravegna@gmail.comCasa do Código Capítulo 4. Iniciando com o Express
 	<form action="/entrar" method="post">
-		<input id="nome" type="text" name="usuario[nome]" placeholder="Seu nome">
+		<input type="text" name="usuario[nome]" placeholder="Seu nome">
 		<br>
-		<input id="email" type="text" name="usuario[email]" placeholder="Seu e-mail">
+		<input type="text" name="usuario[email]" placeholder="Seu e-mail">
 		<br>
-		<button id="entrar" type="submit">Entrar</button>
-		<br>
-		<button type="button" onclick="logarComA();">Logar com A</button>
-		<button type="button" onclick="logarComB();">Logar com B</button>
+		<button type="submit">Entrar</button>
 	</form>
 </section>
-
-<script type="text/javascript">
-	function logarComA() {
-		document.getElementById("nome").value = "Renan";
-		document.getElementById("email").value = "renan@email.com";
-		document.getElementById("entrar").click();
-	}
-
-	function logarComB(){
-		document.getElementById("nome").value = "Siravegna";
-		document.getElementById("email").value = "siravegna@email.com";
-		document.getElementById("entrar").click();
-	}
-</script>
-
 <% include ../footer %>

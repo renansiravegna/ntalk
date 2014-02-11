@@ -8,6 +8,10 @@ var error = require('./middleware/error')
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 
+var mongoose = require('mongoose');
+
+global.db = mongoose.connect('mongodb://localhost/ntalk');
+
 const KEY = 'ntalk.sid',
 	  SECRET = 'ntalk';
 
